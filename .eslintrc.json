@@ -50,7 +50,10 @@
     "react/forbid-prop-types": "off",
     "camelcase": "off",
     "no-unused-vars": "off",
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "jsx-a11y/control-has-associated-label": "off"
+
   }
   
 }

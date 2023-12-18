@@ -1,38 +1,221 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Hind&display=swap");
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: scroll;
+    background-color: #ece3ce;
+}
+
 .App {
-  text-align: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.main-container {
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 800px;
+    min-height: 600px;
+    border-radius: 2rem;
+
+    font-size: calc(10px + 2vmin);
+    color: black;
+    background-color: transparent;
+
+    /* Add a transparency to shadow */
+    box-shadow: 0 26px 42px rgba(0, 0, 0, 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App-header p {
+    position: relative;
+    margin-left: -25rem;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #3a4d39;
+    font-family: "Hind", sans-serif;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.tb {
+    display: table;
+    width: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.td {
+    display: table-cell;
+    vertical-align: middle;
+}
+#searchInput {
+    outline: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input,
+button {
+    color: #fff;
+    font-family: Nunito;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background-color: transparent;
+}
+
+#cover {
+    position: relative;
+    width: 482px;
+    padding: 17px;
+    margin: 20px auto 0 auto;
+    background-color: #3a4d39;
+    border-radius: 13px;
+    box-shadow:
+        0 10px 40px #739072,
+        0 0 0 20px #739072;
+    transform: scale(0.6);
+    margin-top: -2rem;
+}
+
+form {
+    height: 96px;
+}
+
+input[type="text"] {
+    width: 100%;
+    height: 96px;
+    font-size: 35px;
+    line-height: 1;
+    font-family: "Orbitron", sans-serif;
+}
+
+input[type="text"]::placeholder {
+    color: #fff;
+}
+
+#s-cover {
+    width: 1px;
+    padding-left: 35px;
+}
+
+button {
+    position: relative;
+    display: block;
+    width: 100px;
+    height: 96px;
+    cursor: pointer;
+}
+
+#s-circle {
+    position: relative;
+    top: -8px;
+    left: 0;
+    width: 43px;
+    height: 43px;
+    margin-top: 0;
+    border-width: 15px;
+    border: 15px solid #fff;
+    background-color: transparent;
+    border-radius: 50%;
+    transition: 0.5s ease all;
+}
+
+button span {
+    position: absolute;
+    top: 68px;
+    left: 43px;
+    display: block;
+    width: 45px;
+    height: 15px;
+    background-color: transparent;
+    border-radius: 10px;
+    transform: rotateZ(52deg);
+    transition: 0.5s ease all;
+}
+
+button span:before,
+button span:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 45px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    transform: rotateZ(0);
+    transition: 0.5s ease all;
+}
+
+#s-cover:hover #s-circle {
+    top: -1px;
+    width: 67px;
+    height: 15px;
+    border-width: 0;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+#s-cover:hover span {
+    top: 50%;
+    left: 56px;
+    width: 25px;
+    margin-top: -9px;
+    transform: rotateZ(0);
+}
+
+#s-cover:hover button span:before {
+    bottom: 11px;
+    transform: rotateZ(52deg);
+}
+
+#s-cover:hover button span:after {
+    bottom: -11px;
+    transform: rotateZ(-52deg);
+}
+#s-cover:hover button span:before,
+#s-cover:hover button span:after {
+    right: -6px;
+    width: 40px;
+    background-color: #fff;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.location-image-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.location-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    max-width: 255px;
+    max-height: 171px;
+    padding: 2rem;
+    margin: 1rem;
+}
+
+.weather-icon {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+
+    margin-right: 5rem;
+}
+
+.weather-icon img {
 }

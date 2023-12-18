@@ -1,80 +1,139 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 
 import Location from "./location";
 import { getWeatherDataByCityName } from "./weatherDataApi";
 import "./App.css";
 
-const debounce = (func, delay) => {
-    let timeoutId;
-    return (...args) => {
-        if (timeoutId) {
-            clearTimeout(timeoutId);
-        }
-        timeoutId = setTimeout(() => {
-            func(...args);
-        }, delay);
-    };
-};
-
 const App = () => {
     const [weatherData, setWeatherData] = useState(null);
     const [cityName, setCityName] = useState("");
-    const abortController = useRef(new AbortController());
 
-    const debouncedSearch = debounce(async () => {
+    const handleSearch = async () => {
         try {
-            abortController.current.abort(); // Cancel previous request
-            abortController.current = new AbortController();
-
-            if (cityName.trim().length >= 3) {
-                const data = await getWeatherDataByCityName(
-                    cityName,
-                    abortController.current.signal
-                );
-                if (data) {
-                    setWeatherData(data);
-                }
-            }
+            const data = await getWeatherDataByCityName(cityName);
+            console.log(data);
+            setWeatherData(data);
         } catch (error) {
-            if (error.name !== "AbortError") {
-                console.error("Error fetching weather data:", error.message);
-            }
+            console.error(error);
         }
-    }, 500);
-
-    const handleInputChange = (e) => {
-        setCityName(e.target.value);
-        debouncedSearch();
     };
 
-    useEffect(() => {
-        return () => abortController.current.abort(); // Cleanup on component unmount
-    }, []);
+    const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp * 1000);
+        return date.toLocaleTimeString();
+    };
+
+    const getWeatherIconUrl = (icon) => {
+        return `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    };
 
     return (
         <div className='App'>
-            <header className='App-header'>
-                <p>Weather App</p>
-                <div>
-                    <input
-                        type='text'
-                        placeholder='Enter City Name'
-                        value={cityName}
-                        onChange={(e) => {
-                            setCityName(e.target.value);
-                            debouncedSearch();
-                        }}
-                    />
+            <div className='main-container'>
+                <header className='App-header'>
+                    <p>Weather Base</p>
+                </header>
+                <div id='cover'>
+                    <div className='tb'>
+                        <div className='td'>
+                            <input
+                                id='searchInput'
+                                type='text'
+                                placeholder='Enter City Name'
+                                value={cityName}
+                                onChange={(e) => setCityName(e.target.value)}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter") {
+                                        handleSearch();
+                                    }
+                                }}
+                            />
+                        </div>
+                        <div className='td' id='s-cover'>
+                            <button
+                                type='button'
+                                className='Icon'
+                                onClick={handleSearch}
+                            >
+                                <div id='s-circle' />
+                                <span />
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                {weatherData && (
-                    <div>
-                        <p>City: {weatherData.name}</p>
-                        <p>Temperature: {weatherData.main.temp}</p>
-                        {/* Add more fields as needed */}
+                <div>
+                    <div className='location-image-card'>
+                        <div className='location-card'>
+                            <p>
+                                City:{" "}
+                                {weatherData
+                                    ? weatherData.name
+                                    : "No city selected"}
+                            </p>
+                            <p>
+                                Country:{" "}
+                                {weatherData ? weatherData.sys.country : "--"}
+                            </p>
+                        </div>
+                        <p className='weather-icon'>
+                            {weatherData ? (
+                                <img
+                                    src={getWeatherIconUrl(
+                                        weatherData.weather[0].icon
+                                    )}
+                                    alt='Weather Icon'
+                                />
+                            ) : (
+                                "--"
+                            )}
+                        </p>
                     </div>
-                )}
-            </header>
+                    <div>
+                        <p>
+                            Main:{" "}
+                            {weatherData ? weatherData.weather[0].main : "--"}
+                        </p>
+                        <p>
+                            Description:{" "}
+                            {weatherData
+                                ? weatherData.weather[0].description
+                                : "--"}
+                        </p>
+                        <p>
+                            Temperature:{" "}
+                            {weatherData ? weatherData.main.temp : "--"}
+                        </p>
+                        <p>
+                            Feels Like:{" "}
+                            {weatherData ? weatherData.main.feels_like : "--"}
+                        </p>
+                        <p>
+                            Humidity:{" "}
+                            {weatherData ? weatherData.main.humidity : "--"}
+                        </p>
+                        <p>
+                            Wind Speed:{" "}
+                            {weatherData ? weatherData.wind.speed : "--"}
+                        </p>
+                        <p />
+                    </div>
+                    <div>
+                        <p>
+                            Sunrise:{" "}
+                            {weatherData
+                                ? formatTimestamp(weatherData.sys.sunrise)
+                                : "N/A"}
+                        </p>
+                        <p>
+                            Sunset:{" "}
+                            {weatherData
+                                ? formatTimestamp(weatherData.sys.sunset)
+                                : "N/A"}
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };
