@@ -19,8 +19,9 @@ const App = () => {
     };
 
     const formatTimestamp = (timestamp) => {
-        const date = new Date(timestamp * 1000);
-        return date.toLocaleTimeString();
+        const date = new Date(timestamp * 1000).toLocaleTimeString();
+
+        return date.slice(0, -6) + date.slice(-3);
     };
 
     const getWeatherIconUrl = (icon) => {
@@ -98,6 +99,9 @@ const App = () => {
                             Description:{" "}
                             {weatherData
                                 ? weatherData.weather[0].description
+                                      .charAt(0)
+                                      .toUpperCase() +
+                                  weatherData.weather[0].description.slice(1)
                                 : "--"}
                         </p>
                         <p>

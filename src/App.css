@@ -1,8 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Orbitron&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Hind&display=swap");
 
-body,
-html {
+body {
     margin: 0;
     padding: 0;
     height: 100vh;
@@ -202,7 +201,7 @@ button span:after {
 .location-card {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     max-width: 255px;
     max-height: 171px;
     padding: 2rem;
